@@ -1,0 +1,122 @@
+:root{
+    --blue:#0066fffb;
+    --black:#130f40;
+    --light-color:#666;
+}
+
+
+html{
+    min-height: 100%;
+}
+body{
+    
+    
+    margin: 0;
+    border: 0;
+    padding: 0;  
+    justify-content: space-around; 
+    background:url("blue.jpg");
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position:center;
+    height:600px;
+    font-family:'Poppins', sans-serif;
+    color:rgb(255, 255, 255);
+    margin:0%;
+    padding:0;
+    display:block;
+   text-shadow: 0 0 7px #fff,
+0 0 10px #fff,
+0 0 21px #fff,
+0 0 42px rgb(0, 229, 255),
+0 0 82px rgb(0, 229, 255),
+0 0 92px rgb(0, 229, 255),
+0 0 102px rgb(0, 229, 255),
+}
+
+header{
+        text-align:center;
+        color:whitesmoke;
+        font-family:Arial, Helvetica, sans-serif
+    }
+    nav ul{
+        float:right;
+        font-size: larger;
+        padding-right: 30px;
+       
+    }
+    li{
+        display:inline-block;
+        color:white;
+                            
+    }
+   li a{
+        text-decoration: none;
+        
+        color:white;
+        display: block;
+        padding: 8px;
+        
+    }
+    nav a:hover{
+       color: #0066fffb;
+    }
+
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-start;
+      }
+      
+      .container img {
+        position: absolute;
+        height:450px;
+        left:-9rem;
+        top: 5rem;
+        order: 2;
+        margin-bottom: 20px;
+      }
+      
+      .text-content {
+        position: absolute;
+        top:7rem;
+        left:20rem;
+        order: 1;
+        flex-basis: 50%;
+        font-size: 18px;
+      }
+
+
+      
+
+
+
+@media (max-width:600px) {
+    .fadein {
+        position:absolute;
+        top:135px;
+        left:10px;
+        }
+        .fadein img{
+            position:absolute;
+            top:13px;
+            height: 320px;
+        }
+        .about-text{
+            display:inline;
+            position:absolute;
+            top:425px;
+            left:-340px;
+
+        }
+        nav ul{
+            display: block;
+            position:absolute;
+            padding: 8px;
+            left:10px;
+            
+        }
+
+}
+

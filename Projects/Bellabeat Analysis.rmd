@@ -1,0 +1,492 @@
+---
+jupyter:
+  kernelspec:
+    display_name: R
+    language: R
+    name: ir
+  language_info:
+    codemirror_mode: r
+    file_extension: .r
+    mimetype: text/x-r-source
+    name: R
+    pygments_lexer: r
+    version: 4.0.5
+  nbformat: 4
+  nbformat_minor: 5
+  papermill:
+    default_parameters: {}
+    duration: 9.069698
+    end_time: "2023-05-12T09:54:31.356643"
+    environment_variables: {}
+    input_path: \_\_notebook\_\_.ipynb
+    output_path: \_\_notebook\_\_.ipynb
+    parameters: {}
+    start_time: "2023-05-12T09:54:22.286945"
+    version: 2.4.0
+---
+
+::: {#4d626092 .cell .markdown papermill="{\"duration\":1.3132e-2,\"end_time\":\"2023-05-12T09:54:25.695190\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:25.682058\",\"status\":\"completed\"}" tags="[]"}
+# Bellabeat Analysis
+
+Bellabeat, a high-tech manufacturer of health-focused products for
+women. Bellabeat is a successful small company, but they have the
+potential to become a larger player inglobal smart device market. Urška
+Sršen, cofounder and Chief Creative Officer of Bellabeat, believes that
+analyzing smart device fitness data could help unlock new growth
+opportunities for the company. You have been asked to focus on one of
+Bellabeat's products and analyze smart device data to gain insight into
+how consumers are using their smart devices. The insights you discover
+will then help guide marketing strategy for the company. You will
+present your analysis to the Bellabeat executive team along with your
+high-level recommendations for Bellabeat's marketing strategy.
+
+Sršen asks you to analyze smart device usage data in order to gain
+insight into how consumers use non-Bellabeat smart devices. She then
+wants you to select one Bellabeat product to apply these insights to in
+your presentation. These questions will guide your analysis:
+
+1.  What are some trends in smart device usage?
+2.  How could these trends apply to Bellabeat customers?
+3.  How could these trends help influence Bellabeat marketing strategy?
+
+## Business task:
+
+-   Analyze smart device usage data in order to gain insight into how
+    consumers use non-Bellabeat smart devices
+-   Use one Bellabeat product to apply these insights into the
+    presentation.
+
+Data sources: <https://www.kaggle.com/arashnic/fitbit> made available by
+Mobius. Data was in .CSV format The data does not ROCC.
+
+## Stakeholders:
+
+-   Urška Sršen: Bellabeat's cofounder and Chief Creative Officer
+-   Sando Mur: Mathematician and Bellabeat's cofounder; key member of
+    the Bellabeat executive team
+
+## Loading packages
+:::
+
+::: {#5ce21077 .cell .code execution_count="1" execution="{\"iopub.execute_input\":\"2023-05-12T09:54:25.723186Z\",\"iopub.status.busy\":\"2023-05-12T09:54:25.720901Z\",\"iopub.status.idle\":\"2023-05-12T09:54:26.930574Z\",\"shell.execute_reply\":\"2023-05-12T09:54:26.928526Z\"}" papermill="{\"duration\":1.226079,\"end_time\":\"2023-05-12T09:54:26.933344\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:25.707265\",\"status\":\"completed\"}" tags="[]"}
+``` R
+library(ggplot2)
+library(tidyr)
+library(tidyverse)
+
+```
+
+::: {.output .stream .stderr}
+    ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+    ✔ dplyr     1.1.0     ✔ readr     2.1.4
+    ✔ forcats   1.0.0     ✔ stringr   1.5.0
+    ✔ lubridate 1.9.2     ✔ tibble    3.1.8
+    ✔ purrr     1.0.1     
+    ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+    ✖ dplyr::filter() masks stats::filter()
+    ✖ dplyr::lag()    masks stats::lag()
+    ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+:::
+:::
+
+::: {#34c00707 .cell .markdown papermill="{\"duration\":1.2812e-2,\"end_time\":\"2023-05-12T09:54:26.958321\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:26.945509\",\"status\":\"completed\"}" tags="[]"}
+## Importing the data frames
+:::
+
+::: {#efc5a629 .cell .code execution_count="2" execution="{\"iopub.execute_input\":\"2023-05-12T09:54:27.020915Z\",\"iopub.status.busy\":\"2023-05-12T09:54:26.985680Z\",\"iopub.status.idle\":\"2023-05-12T09:54:27.071724Z\",\"shell.execute_reply\":\"2023-05-12T09:54:27.069728Z\"}" papermill="{\"duration\":0.103608,\"end_time\":\"2023-05-12T09:54:27.075073\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:26.971465\",\"status\":\"completed\"}" tags="[]"}
+``` R
+Daily_activities <- read.csv("C:/Users/stu/Desktop/IT/Data Analysis/archive (2)/Data/dailyActivity_merged.csv")
+Daily_sleep <- read.csv("C:/Users/stu/Desktop/IT/Data Analysis/archive (2)/Data/sleepDay_merged.csv"")
+weight <- read.csv("C:/Users/stu/Desktop/IT/Data Analysis/archive (2)/Data/weightLogInfo_merged.csv")
+```
+:::
+
+::: {#abd70d84 .cell .markdown papermill="{\"duration\":1.2331e-2,\"end_time\":\"2023-05-12T09:54:27.099427\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:27.087096\",\"status\":\"completed\"}" tags="[]"}
+# Cleaning the data
+:::
+
+::: {#27478319 .cell .code execution_count="3" execution="{\"iopub.execute_input\":\"2023-05-12T09:54:27.127020Z\",\"iopub.status.busy\":\"2023-05-12T09:54:27.125310Z\",\"iopub.status.idle\":\"2023-05-12T09:54:27.198541Z\",\"shell.execute_reply\":\"2023-05-12T09:54:27.196420Z\"}" papermill="{\"duration\":9.0396e-2,\"end_time\":\"2023-05-12T09:54:27.201756\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:27.111360\",\"status\":\"completed\"}" tags="[]"}
+``` R
+weight <- weight %>% 
+  distinct() %>% 
+  select(-Fat) %>% 
+  drop_na()
+
+
+Daily_activities<- Daily_activities %>%
+  distinct() %>%
+  drop_na()
+
+Daily_sleep <- Daily_sleep %>%
+  distinct() %>%
+  drop_na()
+```
+:::
+
+::: {#f9441d59 .cell .markdown papermill="{\"duration\":1.1858e-2,\"end_time\":\"2023-05-12T09:54:27.225915\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:27.214057\",\"status\":\"completed\"}" tags="[]"}
+# Merging data
+
+I want to merge the data into one big data frame for convenience
+:::
+
+::: {#71f1b64e .cell .code execution_count="4" execution="{\"iopub.execute_input\":\"2023-05-12T09:54:27.253595Z\",\"iopub.status.busy\":\"2023-05-12T09:54:27.252010Z\",\"iopub.status.idle\":\"2023-05-12T09:54:27.310424Z\",\"shell.execute_reply\":\"2023-05-12T09:54:27.308381Z\"}" papermill="{\"duration\":7.5112e-2,\"end_time\":\"2023-05-12T09:54:27.313135\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:27.238023\",\"status\":\"completed\"}" tags="[]"}
+``` R
+Daily_activities <- Daily_activities %>% mutate(row_id = row_number())
+Daily_sleep <- Daily_sleep %>% mutate(row_id = row_number())
+merged_df1 <- merge(Daily_activities, Daily_sleep, by = "row_id")
+
+merged_df1<- merged_df1 %>% mutate(row_id = row_number())
+
+weight<- weight %>% mutate(row_id = row_number()) %>% drop_na(WeightKg)
+
+master_df<- merge(merged_df1, weight, by = "row_id")
+```
+:::
+
+::: {#e5c0d9e4 .cell .markdown papermill="{\"duration\":1.2184e-2,\"end_time\":\"2023-05-12T09:54:27.337333\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:27.325149\",\"status\":\"completed\"}" tags="[]"}
+I added the \"row_id\" because merging by \"Id\" caused my data to have
+a lot of duplicates.So I added \"row_id\" as a unique column to join the
+two data frames.
+
+# Analysis:
+
+I want to check the weight classes that make up the population
+:::
+
+::: {#5b118f59 .cell .code execution_count="5" execution="{\"iopub.execute_input\":\"2023-05-12T09:54:27.365749Z\",\"iopub.status.busy\":\"2023-05-12T09:54:27.363936Z\",\"iopub.status.idle\":\"2023-05-12T09:54:27.386231Z\",\"shell.execute_reply\":\"2023-05-12T09:54:27.384250Z\"}" papermill="{\"duration\":3.9264e-2,\"end_time\":\"2023-05-12T09:54:27.388932\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:27.349668\",\"status\":\"completed\"}" tags="[]"}
+``` R
+# Adding new column "WeightClass"
+master_df <- master_df %>%
+mutate(WeightClass = cut(WeightKg, breaks = seq(52.6, 133.5, by = 5),
+labels = paste(seq(52.6, 128.5, by = 5), "-", seq(57.5, 133.5, by = 5)),
+include.lowest = TRUE))
+
+
+```
+:::
+
+::: {#92d32459 .cell .markdown papermill="{\"duration\":1.2119e-2,\"end_time\":\"2023-05-12T09:54:27.413416\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:27.401297\",\"status\":\"completed\"}" tags="[]"}
+#### Plotting the bar chart:
+:::
+
+::: {#53c1cee7 .cell .code execution_count="6" execution="{\"iopub.execute_input\":\"2023-05-12T09:54:27.441383Z\",\"iopub.status.busy\":\"2023-05-12T09:54:27.439654Z\",\"iopub.status.idle\":\"2023-05-12T09:54:27.940685Z\",\"shell.execute_reply\":\"2023-05-12T09:54:27.938694Z\"}" papermill="{\"duration\":0.517555,\"end_time\":\"2023-05-12T09:54:27.943133\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:27.425578\",\"status\":\"completed\"}" tags="[]"}
+``` R
+ggplot(master_df[!is.na(master_df$WeightClass),], aes(x = WeightClass)) +
+  geom_bar() +
+  xlab("Weight Class (kg)") +
+  ylab("Frequency") +
+  ggtitle("Distribution of Weight Classes")
+```
+
+::: {.output .display_data}
+![](vertopal_49b26f5de7fc4508a6146b38a841a974/523c192dc4dfc489bbef959c3bd0bd54bc99d307.png){height="420"
+width="420"}
+:::
+:::
+
+::: {#6aae14ed .cell .markdown papermill="{\"duration\":1.2485e-2,\"end_time\":\"2023-05-12T09:54:27.968276\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:27.955791\",\"status\":\"completed\"}" tags="[]"}
+#### I also want to check which BMI category makes up the population
+:::
+
+::: {#1b0eb020 .cell .code execution_count="7" execution="{\"iopub.execute_input\":\"2023-05-12T09:54:27.998303Z\",\"iopub.status.busy\":\"2023-05-12T09:54:27.996544Z\",\"iopub.status.idle\":\"2023-05-12T09:54:28.012034Z\",\"shell.execute_reply\":\"2023-05-12T09:54:28.010055Z\"}" papermill="{\"duration\":3.3908e-2,\"end_time\":\"2023-05-12T09:54:28.014703\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:27.980795\",\"status\":\"completed\"}" tags="[]"}
+``` R
+# Creating new column "BMI_category"
+
+master_df$BMI_category <- ifelse(master_df$BMI < 18.5, "Underweight",
+                          ifelse(master_df$BMI>18.5 & master_df$BMI < 25, "Ideal",
+                                 ifelse(master_df$BMI>25 & master_df$BMI < 30, "Overweight", "Obese")))
+```
+:::
+
+::: {#fbd7ee9f .cell .markdown papermill="{\"duration\":1.2435e-2,\"end_time\":\"2023-05-12T09:54:28.039819\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:28.027384\",\"status\":\"completed\"}" tags="[]"}
+#### Plotting the bar chart: {#plotting-the-bar-chart}
+:::
+
+::: {#a12aaaca .cell .markdown papermill="{\"duration\":1.233e-2,\"end_time\":\"2023-05-12T09:54:28.064918\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:28.052588\",\"status\":\"completed\"}" tags="[]"}
+:::
+
+::: {#6508a16f .cell .code execution_count="8" execution="{\"iopub.execute_input\":\"2023-05-12T09:54:28.093441Z\",\"iopub.status.busy\":\"2023-05-12T09:54:28.091813Z\",\"iopub.status.idle\":\"2023-05-12T09:54:28.442414Z\",\"shell.execute_reply\":\"2023-05-12T09:54:28.439164Z\"}" papermill="{\"duration\":0.368384,\"end_time\":\"2023-05-12T09:54:28.445767\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:28.077383\",\"status\":\"completed\"}" tags="[]"}
+``` R
+ggplot(master_df, aes(x = BMI_category)) +
+  geom_bar() +
+  xlab("BMI category") +
+  ylab("Frequency") +
+  ggtitle("Distribution of BMI category")
+```
+
+::: {.output .display_data}
+![](vertopal_49b26f5de7fc4508a6146b38a841a974/b7dd59e60a292306c0cd20df90b55df536607537.png){height="420"
+width="420"}
+:::
+:::
+
+::: {#f3f4caba .cell .markdown papermill="{\"duration\":1.2849e-2,\"end_time\":\"2023-05-12T09:54:28.472210\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:28.459361\",\"status\":\"completed\"}" tags="[]"}
+#### note:
+
+-   We can see from the two plots that the population is made up of
+    people with Obese,overweight and people with Ideal BMI.
+-   We can also see that the People with Ideal BMI make up most parts of
+    the population and the Obese make up the lesser parts of the
+    population.
+
+next we will be using box plot to see which category burns the most
+calories
+:::
+
+::: {#5370092b .cell .code execution_count="9" execution="{\"iopub.execute_input\":\"2023-05-12T09:54:28.502487Z\",\"iopub.status.busy\":\"2023-05-12T09:54:28.500811Z\",\"iopub.status.idle\":\"2023-05-12T09:54:28.859146Z\",\"shell.execute_reply\":\"2023-05-12T09:54:28.856115Z\"}" papermill="{\"duration\":0.377146,\"end_time\":\"2023-05-12T09:54:28.862399\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:28.485253\",\"status\":\"completed\"}" tags="[]"}
+``` R
+
+ggplot(master_df[!is.na(master_df$BMI_category),], aes(BMI_category, Calories, fill=BMI_category)) +
+  geom_boxplot() +
+  theme(legend.position="none") +
+  labs(title="Calories burned by BMI category", x="BMI category") +
+  theme(legend.position="none", text = element_text(angle=360),plot.title = element_text(hjust = 0.5))
+```
+
+::: {.output .display_data}
+![](vertopal_49b26f5de7fc4508a6146b38a841a974/472a5927a6b181896b1c6389121dd663264cf71f.png){height="420"
+width="420"}
+:::
+:::
+
+::: {#3ae86375 .cell .markdown papermill="{\"duration\":1.3574e-2,\"end_time\":\"2023-05-12T09:54:28.889963\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:28.876389\",\"status\":\"completed\"}" tags="[]"}
+#### note: {#note}
+
+-   We can see from the plot that the **Ideal category** burns the most
+    calories, followed by the Obese category calories.
+-   However, some users in the **Overweight category** burn more
+    calories than the some in the **Ideal category**
+
+Next up, we will be using box plot to see which category sleeps the
+most.
+:::
+
+::: {#13b09cb9 .cell .code execution_count="10" execution="{\"iopub.execute_input\":\"2023-05-12T09:54:28.920844Z\",\"iopub.status.busy\":\"2023-05-12T09:54:28.919240Z\",\"iopub.status.idle\":\"2023-05-12T09:54:29.213733Z\",\"shell.execute_reply\":\"2023-05-12T09:54:29.211889Z\"}" papermill="{\"duration\":0.312688,\"end_time\":\"2023-05-12T09:54:29.216286\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:28.903598\",\"status\":\"completed\"}" tags="[]"}
+``` R
+ggplot(master_df[!is.na(master_df$BMI_category),], aes(BMI_category, TotalMinutesAsleep, fill=BMI_category)) +
+  geom_boxplot() +
+  theme(legend.position="none") +
+  labs(title="Minutes slept by BMI category", x="BMI category") +
+  theme(legend.position="none", text = element_text(angle=360),plot.title = element_text(hjust = 0.5))
+```
+
+::: {.output .display_data}
+![](vertopal_49b26f5de7fc4508a6146b38a841a974/1558eb62f068188588d6a191f24104e108491058.png){height="420"
+width="420"}
+:::
+:::
+
+::: {#55fce12f .cell .markdown papermill="{\"duration\":1.4343e-2,\"end_time\":\"2023-05-12T09:54:29.245121\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:29.230778\",\"status\":\"completed\"}" tags="[]"}
+#### Note: {#note}
+
+-   We can see from the plot that the users **overweight category** get
+    the most sleep.
+-   The users in the **Ideal Category** get the least sleep.
+
+Next up, we will checking which category travels the most distance.
+:::
+
+::: {#d1f6e6eb .cell .code execution_count="11" execution="{\"iopub.execute_input\":\"2023-05-12T09:54:29.277671Z\",\"iopub.status.busy\":\"2023-05-12T09:54:29.276010Z\",\"iopub.status.idle\":\"2023-05-12T09:54:29.580145Z\",\"shell.execute_reply\":\"2023-05-12T09:54:29.578079Z\"}" papermill="{\"duration\":0.323527,\"end_time\":\"2023-05-12T09:54:29.583050\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:29.259523\",\"status\":\"completed\"}" tags="[]"}
+``` R
+ggplot(master_df[!is.na(master_df$BMI_category),], aes(BMI_category, TotalDistance, fill=BMI_category)) +
+  geom_boxplot() +
+  theme(legend.position="none") +
+  labs(title="Total Distance travelled", x="BMI category",y="Total Distance") +
+  theme(legend.position="none", text = element_text(angle=360),plot.title = element_text(hjust = 0.5))
+```
+
+::: {.output .display_data}
+![](vertopal_49b26f5de7fc4508a6146b38a841a974/f31fb96fa1ba2691409683a7a997a5f241161b1e.png){height="420"
+width="420"}
+:::
+:::
+
+::: {#7a4741a3 .cell .markdown papermill="{\"duration\":1.4966e-2,\"end_time\":\"2023-05-12T09:54:29.613313\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:29.598347\",\"status\":\"completed\"}" tags="[]"}
+Now, we will be looking at the most active Category:
+
+-   First of all, we have to sum up all their active minutes.
+:::
+
+::: {#eeb5702c .cell .code execution_count="12" execution="{\"iopub.execute_input\":\"2023-05-12T09:54:29.647851Z\",\"iopub.status.busy\":\"2023-05-12T09:54:29.645944Z\",\"iopub.status.idle\":\"2023-05-12T09:54:29.681272Z\",\"shell.execute_reply\":\"2023-05-12T09:54:29.679121Z\"}" papermill="{\"duration\":5.5749e-2,\"end_time\":\"2023-05-12T09:54:29.684190\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:29.628441\",\"status\":\"completed\"}" tags="[]"}
+``` R
+master_df$TotalActiveMinutes <- rowSums(master_df[, c("VeryActiveMinutes", "LightlyActiveMinutes", "FairlyActiveMinutes")], na.rm = TRUE)
+aggregate(TotalActiveMinutes ~ BMI_category, data = master_df, FUN = mean)
+```
+
+::: {.output .display_data}
+
+A data.frame: 3 × 2
+
+| BMI_category &lt;chr&gt; | TotalActiveMinutes &lt;dbl&gt; |
+|---|---|
+| Ideal      | 244.5882 |
+| Obese      | 222.0000 |
+| Overweight | 205.2500 |
+:::
+:::
+
+::: {#e1658132 .cell .markdown papermill="{\"duration\":1.5395e-2,\"end_time\":\"2023-05-12T09:54:29.715310\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:29.699915\",\"status\":\"completed\"}" tags="[]"}
+We want see if there is a relationship between the Total Active minutes
+and the calories burned:
+:::
+
+::: {#1fcdd64e .cell .code execution_count="13" execution="{\"iopub.execute_input\":\"2023-05-12T09:54:29.749777Z\",\"iopub.status.busy\":\"2023-05-12T09:54:29.748131Z\",\"iopub.status.idle\":\"2023-05-12T09:54:30.054595Z\",\"shell.execute_reply\":\"2023-05-12T09:54:30.052422Z\"}" papermill="{\"duration\":0.32656,\"end_time\":\"2023-05-12T09:54:30.057232\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:29.730672\",\"status\":\"completed\"}" tags="[]"}
+``` R
+ggplot(master_df, aes(x=TotalActiveMinutes,y=Calories,color=TotalActiveMinutes))+geom_point()+labs(x="Total Active Minutes",y="Calories burned")+ggtitle("Comparison of Total Active Minutes to Calories burned")
+```
+
+::: {.output .display_data}
+![](vertopal_49b26f5de7fc4508a6146b38a841a974/b813c578b299596910b5ba7b9d2bc827b9346650.png){height="420"
+width="420"}
+:::
+:::
+
+::: {#72338b86 .cell .markdown papermill="{\"duration\":1.6408e-2,\"end_time\":\"2023-05-12T09:54:30.090364\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:30.073956\",\"status\":\"completed\"}" tags="[]"}
+-   We can see that there is a positive relationship between the total
+    active minutes and the calories burned.
+
+Note: This could suggest that individuals who engage in more very active
+physical activity tend to be more active in general and are more likely
+to burn more calories
+
+We also want to use spearman\'s correlation coefficient to see how
+strongly related these variables are.
+:::
+
+::: {#77270ce8 .cell .code execution_count="14" execution="{\"iopub.execute_input\":\"2023-05-12T09:54:30.128097Z\",\"iopub.status.busy\":\"2023-05-12T09:54:30.126235Z\",\"iopub.status.idle\":\"2023-05-12T09:54:30.150313Z\",\"shell.execute_reply\":\"2023-05-12T09:54:30.147758Z\"}" papermill="{\"duration\":5.3009e-2,\"end_time\":\"2023-05-12T09:54:30.160715\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:30.107706\",\"status\":\"completed\"}" tags="[]"}
+``` R
+correlation <- cor(master_df$TotalActiveMinutes,master_df$Calories)
+ correlation
+```
+
+::: {.output .display_data}
+0.677362569326751
+:::
+:::
+
+::: {#90df6aaa .cell .markdown papermill="{\"duration\":1.6521e-2,\"end_time\":\"2023-05-12T09:54:30.193817\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:30.177296\",\"status\":\"completed\"}" tags="[]"}
+We have a correlation coefficient of **0.677** , which means that there
+is a moderately strong linear relationship between Total Active Minutes
+and Calories burned.
+
+However, it is important to note that correlation does not imply
+causation.
+:::
+
+::: {#87ad9762 .cell .markdown papermill="{\"duration\":1.6777e-2,\"end_time\":\"2023-05-12T09:54:30.227718\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:30.210941\",\"status\":\"completed\"}" tags="[]"}
+Finally, we will be checking which BMI category is the most active.
+:::
+
+::: {#4f1eaf66 .cell .code execution_count="15" execution="{\"iopub.execute_input\":\"2023-05-12T09:54:30.265511Z\",\"iopub.status.busy\":\"2023-05-12T09:54:30.263796Z\",\"iopub.status.idle\":\"2023-05-12T09:54:30.672612Z\",\"shell.execute_reply\":\"2023-05-12T09:54:30.670653Z\"}" papermill="{\"duration\":0.430291,\"end_time\":\"2023-05-12T09:54:30.675255\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:30.244964\",\"status\":\"completed\"}" tags="[]"}
+``` R
+ggplot(master_df[!is.na(master_df$BMI_category),], aes(x = BMI_category, y = TotalActiveMinutes, fill=BMI_category)) +
+  geom_boxplot() +
+  labs(x = "BMI Category", y = "Total Active Minutes")+
+ggtitle("Total Active Minutes")
+```
+
+::: {.output .display_data}
+![](vertopal_49b26f5de7fc4508a6146b38a841a974/2204b0ec4fc739a4acef5c91900f5c2052699e54.png){height="420"
+width="420"}
+:::
+:::
+
+::: {#73768144 .cell .markdown papermill="{\"duration\":1.8082e-2,\"end_time\":\"2023-05-12T09:54:30.710635\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:30.692553\",\"status\":\"completed\"}" tags="[]"}
+From our plot, the Ideal category is the most active once again,
+followed by the obese category, then the overweight , I\'m really proud
+of the obese person by the way. Hopefully that person leaves that
+category.
+:::
+
+::: {#1bb780b6 .cell .markdown papermill="{\"duration\":1.776e-2,\"end_time\":\"2023-05-12T09:54:30.747636\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:30.729876\",\"status\":\"completed\"}" tags="[]"}
+## Conclusion:
+
+From the data above, we can see the following:
+
+-   There is more active a user is,the more likely the user is to burn
+    more calories. While a higher level of physical activity may be
+    associated with burning more calories, there may be other factors at
+    play that affect calorie burn, such as metabolism, diet, and
+    genetics.
+
+-   A higher population of the users are people with ideal BMI probably
+    trying to maintain their BMI. This may not necessarily be the only
+    factor at play. Other factors such as genetics, lifestyle, and
+    cultural factors may also play a role in determining one\'s BMI.
+
+-   The people with Ideal BMI are the most active. it is possible that
+    individuals with an ideal BMI may be more likely to engage in
+    physical activity as a means of maintaining their weight. However,
+    this relationship may not hold true for all individuals, and there
+    may be other factors at play.
+
+-   Finally, the relationship between BMI and sleep quality is complex
+    and multifaceted. While it is possible that individuals with an
+    ideal BMI may have poorer sleep quality, there are many other
+    factors that can affect sleep, including stress, diet, and sleep
+    hygiene habits.
+:::
+
+::: {#abd539ff .cell .markdown papermill="{\"duration\":1.7441e-2,\"end_time\":\"2023-05-12T09:54:30.782423\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:30.764982\",\"status\":\"completed\"}" tags="[]"}
+# Suggestions:
+
+-   The Bellabeat membership program would be the most preferred product
+    to carry out these recommendations. The membership program provides
+    users with personalized guidance on nutrition, activity, sleep,
+    health and beauty, and mindfulness based on their lifestyle and
+    goals,
+
+-   Target users with ideal BMI: Since the majority of users have an
+    ideal BMI, the company can focus on developing products and features
+    that cater specifically to this group. This can include offering
+    personalized meal plans, workout routines, and other features that
+    help users maintain their ideal BMI.
+
+## Thank you ! {#thank-you-}
+:::
+
+::: {#460131c8 .cell .code papermill="{\"duration\":1.7381e-2,\"end_time\":\"2023-05-12T09:54:30.817334\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:30.799953\",\"status\":\"completed\"}" tags="[]"}
+``` R
+```
+:::
+
+::: {#11df7fd5 .cell .markdown papermill="{\"duration\":1.7256e-2,\"end_time\":\"2023-05-12T09:54:30.851900\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:30.834644\",\"status\":\"completed\"}" tags="[]"}
+:::
+
+::: {#9bef587a .cell .code papermill="{\"duration\":1.7431e-2,\"end_time\":\"2023-05-12T09:54:30.886925\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:30.869494\",\"status\":\"completed\"}" tags="[]"}
+``` R
+```
+:::
+
+::: {#19b29fd5 .cell .markdown papermill="{\"duration\":1.7226e-2,\"end_time\":\"2023-05-12T09:54:30.921400\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:30.904174\",\"status\":\"completed\"}" tags="[]"}
+:::
+
+::: {#1d5cd99b .cell .markdown papermill="{\"duration\":1.7671e-2,\"end_time\":\"2023-05-12T09:54:30.956392\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:30.938721\",\"status\":\"completed\"}" tags="[]"}
+:::
+
+::: {#01a67054 .cell .markdown papermill="{\"duration\":1.7804e-2,\"end_time\":\"2023-05-12T09:54:30.991613\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:30.973809\",\"status\":\"completed\"}" tags="[]"}
+:::
+
+::: {#25b9ca9a .cell .code papermill="{\"duration\":1.7218e-2,\"end_time\":\"2023-05-12T09:54:31.027809\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:31.010591\",\"status\":\"completed\"}" tags="[]"}
+``` R
+```
+:::
+
+::: {#ae0850e0 .cell .code papermill="{\"duration\":1.7111e-2,\"end_time\":\"2023-05-12T09:54:31.062281\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:31.045170\",\"status\":\"completed\"}" tags="[]"}
+``` R
+```
+:::
+
+::: {#cb99cb60 .cell .markdown papermill="{\"duration\":1.7173e-2,\"end_time\":\"2023-05-12T09:54:31.096772\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:31.079599\",\"status\":\"completed\"}" tags="[]"}
+:::
+
+::: {#5c9da9ef .cell .markdown papermill="{\"duration\":2.2645e-2,\"end_time\":\"2023-05-12T09:54:31.138490\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:31.115845\",\"status\":\"completed\"}" tags="[]"}
+:::
+
+::: {#cda1c57d .cell .markdown papermill="{\"duration\":2.3338e-2,\"end_time\":\"2023-05-12T09:54:31.181216\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:31.157878\",\"status\":\"completed\"}" tags="[]"}
+:::
+
+::: {#28152ef6 .cell .code papermill="{\"duration\":1.7235e-2,\"end_time\":\"2023-05-12T09:54:31.216110\",\"exception\":false,\"start_time\":\"2023-05-12T09:54:31.198875\",\"status\":\"completed\"}" tags="[]"}
+``` R
+```
+:::
