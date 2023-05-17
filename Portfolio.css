@@ -63,7 +63,7 @@ body {
 	margin: 0;
 	padding: 3rem 1rem;
 	min-height: 100vh;
-	background-color: var(--color-gray-light-3);
+	background:url("blue");
 }
 
 .wrapper {
@@ -71,13 +71,13 @@ body {
 	max-width: 70rem;
 	background-color: #0e0578fb;;
 	display: flex;
-	box-shadow: 0px 0px 15px 4px #b3b3b3;
+	
 }
 
 .intro {
 	flex: 0 0 250px;
 	background-color: var(--color-gray-light-1);
-	box-shadow: 5px 0px 15px 0px #b3b3b3;
+	
 	z-index: 5;
 }
 .profile {
