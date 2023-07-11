@@ -5,14 +5,14 @@
 }
 
 html{
-                background:url("blue.jpg");
-                background: no-repeat;
+                
                 min-height: 100%;
                 max-width: 100%;
 }
             body{
                 
-                
+                background:url("blue.jpg");
+                background: no-repeat;
                 margin: 0;
                 border: 0;
                 padding: 0;
