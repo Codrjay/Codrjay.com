@@ -12,7 +12,7 @@ html{
             body{
                 
                 background:url("blue.jpg");
-                background: no-repeat;
+                background: cover;
                 margin: 0;
                 border: 0;
                 padding: 0;
