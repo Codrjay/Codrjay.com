@@ -5,6 +5,7 @@
 }
 
 html{
+                background:url("blue.jpg");
                 min-height: 100%;
                 max-width: 100%;
 }
@@ -14,7 +15,6 @@ html{
                 margin: 0;
                 border: 0;
                 padding: 0;
-                background:url("blue.jpg");
                 height:600px;
                 font-family:'Poppins',sans-serif;
                 margin:0%;
