@@ -6,6 +6,7 @@
 
 html{
                 background:url("blue.jpg");
+                background: no-repeat;
                 min-height: 100%;
                 max-width: 100%;
 }
